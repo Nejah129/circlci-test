@@ -20,13 +20,13 @@ jobs:
     steps:
         run: echo word
 
-  envValues:
-    docker:
-      image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+  # envValues:
+  #   docker:
+  #     image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
 
-    steps:
-        name: Nejah
-        run: echo $envValueForThisProject
+  #   steps:
+  #       name: Nejah
+  #       run: echo $envValueForThisProject
 
 workflows:
   welcome:
