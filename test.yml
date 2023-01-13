@@ -6,35 +6,35 @@ orbs:
   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
 jobs:
-  # print_hello:
-  #   docker:
-  #     - image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+  print_hello:
+    docker:
+      - image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
 
-  #   steps:
-  #       run: echo hello
+    steps:
+        run: echo hello
   
-  # print_word:
-  #   docker:
-  #     image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
-
-  #   steps:
-  #       run: echo word
-
-  envValues:
+  print_word:
     docker:
       image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
 
     steps:
-        name: Nejah
-        run: echo $envValueForThisProject
+        run: echo word
+
+  # envValues:
+  #   docker:
+  #     image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+
+  #   steps:
+  #       name: Nejah
+  #       run: echo $envValueForThisProject
 
 workflows:
   welcome:
     
     jobs:
       - welcome/run
-      # - print_hello
-      # - print_word:
-      #   requires:
-      #     -print_hello
-      -envValues
+      - print_hello
+      - print_word:
+        requires:
+          -print_hello
+      # -envValues
