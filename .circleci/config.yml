@@ -6,19 +6,19 @@ orbs:
   welcome: circleci/node:13.8.0
 # Orchestrate or schedule a set of jobs
 jobs:
-  print_hello:
-    docker:
-      - image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+  # print_hello:
+  #   docker:
+  #     - image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
 
-    steps:
-        run: echo hello
+  #   steps:
+  #       run: echo hello
   
-  print_word:
-    docker:
-      image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
+  # print_word:
+  #   docker:
+  #     image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
 
-    steps:
-        run: echo word
+  #   steps:
+  #       run: echo word
 
   # envValues:
   #   docker:
@@ -27,14 +27,35 @@ jobs:
   #   steps:
   #       name: Nejah
   #       run: echo $envValueForThisProject
+    save_hello_world_output:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - run: echo "hello world" > ~/output.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - output.txt
+
+  print_output_file:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: cat ~/output.txt
 
 workflows:
   welcome:
     
     jobs:
-      - welcome/run
-      - print_hello
-      - print_word:
-        requires:
-          -print_hello
+      # - welcome/run
+      # - print_hello
+      # - print_word:
+      #   requires:
+      #     -print_hello
       # -envValues
+        - save_hello_world_output
+        - print_output_file:
+            requires:
+              - save_hello_world_output
