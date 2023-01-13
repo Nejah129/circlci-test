@@ -37,4 +37,4 @@ workflows:
       - print_word:
         requires:
           -print_hello
-      -envValues
+      # -envValues
