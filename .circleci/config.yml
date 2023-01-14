@@ -5,7 +5,7 @@ orbs:
   # Declare a dependency on the welcome-orb
   welcome: circleci/node:13.8.0
 # Orchestrate or schedule a set of jobs
-jobs:
+# jobs:
   # print_hello:
   #   docker:
   #     - image: circleci/node:13.8.0 # # recommended linux image - includes Ubuntu 20.04, docker 19.03.13, docker-compose 1.27.4
@@ -27,35 +27,55 @@ jobs:
   #   steps:
   #       name: Nejah
   #       run: echo $envValueForThisProject
-    save_hello_world_output:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - run: echo "hello world" > ~/output.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - output.txt
+#     save_hello_world_output:
+#     docker:
+#       - image: circleci/node:13.8.0
+#     steps:
+#       - run: echo "hello world" > ~/output.txt
+#       - persist_to_workspace:
+#           root: ~/
+#           paths:
+#             - output.txt
 
-  print_output_file:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run: cat ~/output.txt
+#   print_output_file:
+#     docker:
+#       - image: circleci/node:13.8.0
+#     steps:
+#       - attach_workspace:
+#           at: ~/
+#       - run: cat ~/output.txt
 
-workflows:
-  welcome:
+# workflows:
+#   welcome:
     
-    jobs:
+#     jobs:
       # - welcome/run
       # - print_hello
       # - print_word:
       #   requires:
       #     -print_hello
       # -envValues
-        - save_hello_world_output
-        - print_output_file:
-            requires:
-              - save_hello_world_output
+        # - save_hello_world_output
+        # - print_output_file:
+        #     requires:
+        #       - save_hello_world_output
+
+
+version: 2.1
+
+commands:
+  print_pipeline_id:
+    steps:
+      - run: echo ${CIRCLE_WORKFLOW_ID}
+
+jobs:
+  my_job:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - print_pipeline_id
+
+workflows:
+  my_workflow:
+    jobs:
+      - my_job
